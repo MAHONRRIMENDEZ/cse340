@@ -6,14 +6,29 @@
  * Require Statements
  *************************/
 const express = require("express")
+const expressLayouts = require("express-ejs-layouts") // el paquete "express-ejs-layouts" esta siendo guardado en la variable "expressLayouts" 
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+
+
+/* ***********************
+"View Engine and Templates"
+ *************************/
+
+app.set("view engine", "ejs") //la view engine es "ejs" 
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout") // not at views root- es decir que las plantillas estaran en una carpeta "layouts"
 
 /* ***********************
  * Routes
  *************************/
 app.use(static)
+
+//Index route
+app.get("/", function(req, res){
+  res.render("index", {title: "Home"})
+})
 
 /* ***********************
  * Local Server Information
