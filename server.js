@@ -10,6 +10,8 @@ const expressLayouts = require("express-ejs-layouts") // el paquete "express-ejs
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+const baseController = require("./controllers/baseController")
+
 
 
 /* ***********************
@@ -26,9 +28,11 @@ app.set("layout", "./layouts/layout") // not at views root- es decir que las pla
 app.use(static)
 
 //Index route
-app.get("/", function(req, res){
+app.get("/", baseController.buildHome) // esta es la version actualizada
+/*
+app.get("/", function(req, res){ // esta es la version antes de la alteracion en la tarea de w3 "MVC Getting started"
   res.render("index", {title: "Home"})
-})
+})*/
 
 /* ***********************
  * Local Server Information
