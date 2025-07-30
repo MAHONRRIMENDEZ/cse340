@@ -11,6 +11,8 @@ const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventoryRoute") /////// OJO CUIDADO CON ESTE QUE LO HICISTE TU SOLO
+
 
 
 
@@ -33,6 +35,10 @@ app.get("/", baseController.buildHome) // esta es la version actualizada
 app.get("/", function(req, res){ // esta es la version antes de la alteracion en la tarea de w3 "MVC Getting started"
   res.render("index", {title: "Home"})
 })*/
+
+// Inventory routes
+app.use("/inv", inventoryRoute)
+
 
 /* ***********************
  * Local Server Information
