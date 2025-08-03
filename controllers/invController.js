@@ -35,4 +35,9 @@ res.render("./inventory/detail", {
 }
 
 
+invCont.triggerError = function (req, res, next) {
+    next(new Error("Error del servidor simulado (500 desde controlador)"))
+}
+
+
 module.exports = invCont

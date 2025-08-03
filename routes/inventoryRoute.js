@@ -13,4 +13,9 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 ///router.get("/detail/:invId", invController.buildByInvId)
 router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId));
 
+
+// Ruta para probar error 500
+router.get("/detail/:invId3215", invController.triggerError)
+
+
 module.exports = router;

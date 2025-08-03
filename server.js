@@ -40,26 +40,8 @@ app.get("/", function(req, res){ // esta es la version antes de la alteracion en
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
-// File Not Found Route
-app.use(async (req, res, next) => {
-  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
-})
 
 
-/* ***********************
-* Express Error Handler
-* Place after all other middleware
-*************************/
-app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
-  res.render("errors/error", {
-    title: err.status || 'Server Error',
-    message,
-    nav
-  })
-})
 
 /* ***********************
  * Local Server Information
@@ -74,3 +56,25 @@ const host = process.env.HOST
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`)
 })
+
+// File Not Found Route
+// Manejador de errores 500
+app.use(async (err, req, res, next) => {
+  console.error(err.stack)
+  const nav = await utilities.getNav()
+  res.status(500).render("errors/error", {
+    title: "500",
+    message: "Ocurrió un error interno del servidor. Estamos trabajando en ello.",
+    nav,
+    status: 500
+  })
+})
+/* 404 Handler */
+app.use(async (req, res, next) => {
+  res.status(404).render("errors/error", {
+    title: "404",
+    message: "Página no encontrada. Puede que el enlace esté roto o que hayas escrito mal la dirección.",
+    status: 404
+  })
+})
+
