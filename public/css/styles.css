@@ -1,9 +1,11 @@
-/******* Change Box Model ***************/
+/* Box model */
 *,
 *:before,
 *:after {
   box-sizing: border-box;
 }
+
+/* Variables y fondo */
 :root {
   background-image: url("../images/site/small_check.jpg");
   background-size: cover;    
@@ -12,27 +14,29 @@
   --morado: #581845;
   --verde: #90Dc3f;
   --rojo: #c70039;
-  --verde-lima: #ff5733;
+  --naranja: #ff5733;
   --amarillo: #ffc305;
-  --Beige: #f9f9ea; 
+  --beige: #f9f9ea; 
 }
 
+/* Body */
 body {
-  margin: 0.5rem;
-  margin: 5% 18% 5% 18%;
+  margin: 5% 18%;
   font-family: 'Segoe UI', sans-serif;
-  background-color: var(--Beige);
-  border: 3px solid var(--verde-lima);
+  background-color: var(--beige);
+  border: 3px solid var(--naranja);
 }
 
+/* Header */
 header {
   background-color: var(--morado);
   display: flex;               
   justify-content: space-between; 
   align-items: center;     
   padding: 1rem 2rem;
-  margin-bottom:  1%;
+  margin-bottom: 1%;
 }
+
 header .siteName,
 header #tools {
   font-size: 2rem;
@@ -44,71 +48,147 @@ header a {
   text-decoration: none;
   color: white;
 }
+
+/* Navigation */
 nav {
-  background-color: var(--verde-lima);
+  background-color: var(--naranja);
   padding: 1rem 2rem;
 }
 
-.nav-menu {
-  list-style: none;      
-  display: flex;           
-  gap: 2rem;                  
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
   margin: 0;
   padding: 0;
-  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.nav-menu li a {
+nav ul li a {
+  display: inline-block;
   text-decoration: none;
   color: black;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   padding: 0.5rem 1rem;
+  background-color: white;
   border-radius: 4px;
   transition: background-color 0.3s ease;
 }
 
-.nav-menu li a:hover {
+nav ul li a:hover {
   background-color: var(--rojo);
   color: white;
 }
 
 .current-menu-item a {
-  background-color: #ffc305;
+  background-color: var(--amarillo);
 }
 
+/* Main */
 main {
   padding: 2rem;
 }
 
+/* Grid en la lista de vehículos peeeeee */
+#inv-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#inv-display li {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+#inv-display li img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.namePrice {
+  margin-top: 0.5rem;
+}
+
+.namePrice h2 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.namePrice span {
+  display: block;
+  color: var(--morado);
+  font-weight: bold;
+  margin-top: 0.25rem;
+}
+
+/* Detalles del vehículo */
+#vehicle-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#vehicle-detail img {
+  max-width: 100%;
+  border-radius: 8px;
+  flex: 1 1 400px;
+}
+
+.vehicle-info {
+  flex: 1 1 300px;
+}
+
+.vehicle-info h2 {
+  margin-top: 0;
+  color: var(--morado);
+}
+
+.vehicle-info p {
+  margin-bottom: 0.5rem;
+}
+
+/* Hero imagen */
 .hero {
   position: relative;
   width: 100%;
-  height: auto;
   overflow: hidden;
 }
 
 .hero img {
   width: 100%;
-  height: auto;
   display: block;
 }
-.herolabel{
+
+.herolabel {
   position: absolute;
   top: 5%; 
   left: 5%;
 }
-.hero-text-box{
+
+.hero-text-box {
   position: absolute;
   top: 20%; 
   left: 5%;
   max-width: fit-content;
   text-align: center;
-  color: rgb(0, 0, 0);
+  color: black;
   margin-top: 1rem;
 }
-
-
 /* Botón sobre la imagen */
 .hero-text-box h2 {
   font-size: 1.1rem;
@@ -126,64 +206,51 @@ main {
   margin-top: 0.2rem;
 }
 
-
-
-
-
-.content-wrap {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  
+/* Reviews + Upgrades */
+.extras {
+  display: flex;
   gap: 2rem;
+  margin-top: 2rem;
 }
 
-.gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  padding: 1rem;
-}
-.gallery h2 {
-  grid-column: 1/3;
-  text-align: center;
-}
-
-.item {
-  text-align: center;
-}
-
-.item img {
-  width: 100%;
-  height: auto;
-  max-width: 150px;
+.reviews, .upgrades {
   display: block;
-  margin-bottom: 0.5rem;
-  border-radius: 8px;
-}
-
-.item a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  
-}
-
-
-.reviews {
   flex: 1;
-  display: block;
   background-color: var(--amarillo);
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  margin-top: 5%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  margin-top: 2rem;
 }
 
-.reviews h2 {
+.reviews h2,
+.upgrades h2 {
   color: var(--morado);
   padding-bottom: 1rem;
 }
 
+.upgrades {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.upgrades h2 {
+  grid-column: 1 / -1;
+  margin-bottom: 0.5rem;
+  color: var(--morado);
+}
+
+.upgrades img {
+  width: 90%;
+  height: auto;
+  border-radius: 8px;
+}
+.upgrades a {
+  margin-left: 25%;
+}
+/* Footer */
 footer {
   text-align: center;
   padding: 1rem;
@@ -193,49 +260,44 @@ footer {
   margin-top: 2rem;
 }
 
-/* phone view */
+/* Responsive */
 @media (max-width: 768px) {
-  .content-wrap {
-    flex-direction: column;
+  body {
+    margin: 0;
   }
-.nav-menu {
-  text-align: center;
-}
-body {
-  margin: 0;
-}
 
-  .herolabel img{
-  position: absolute;
-  width: 100px;
-  margin-top: -20%;
-  margin-bottom: 80%;
-  margin-left: 2%;
-}
-.hero-text-box p{
-  font-size: 0.5rem;
-}
-.hero-text-box h2 {
-  font-size: 0.5rem;
-}
-.content-wrap {
-  display: flex;
-}
-.gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  padding: 1rem;
-}
-.item img{
-  width: 100%;
-  padding: 10%;
-}
-.reviews {
-  width: 100%;
-  height: auto;
-  text-align: center;
-  padding: 10%;
-  
-}
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav ul li a {
+    width: 100%;
+    text-align: center;
+  }
+
+  #vehicle-detail {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  #vehicle-detail img {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .vehicle-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .vehicle-info p {
+    font-size: 1rem;
+  }
+
+  #inv-display {
+    grid-template-columns: 1fr !important;
+  }
+  .extras {
+  flex-direction: column;
+  }
 }
