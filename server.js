@@ -40,23 +40,6 @@ app.get("/", function(req, res){ // esta es la version antes de la alteracion en
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
-
-
-
-/* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
-const port = process.env.PORT
-const host = process.env.HOST
-
-/* ***********************
- * Log statement to confirm server operation
- *************************/
-app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`)
-})
-
 // File Not Found Route
 // Manejador de errores 500
 app.use(async (err, req, res, next) => {
@@ -77,4 +60,21 @@ app.use(async (req, res, next) => {
     status: 404
   })
 })
+
+
+/* ***********************
+ * Local Server Information
+ * Values from .env (environment) file
+ *************************/
+const port = process.env.PORT
+const host = process.env.HOST
+
+/* ***********************
+ * Log statement to confirm server operation
+ *************************/
+app.listen(port, () => {
+  console.log(`app listening on ${host}:${port}`)
+})
+
+
 
