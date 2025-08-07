@@ -13,9 +13,31 @@ const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute") /////// OJO CUIDADO CON ESTE QUE LO HICISTE TU SOLO
 const utilities = require("./utilities"); 
+const session = require("express-session")
+const pool = require('./database/')
+const accountRoute = require("./routes/accountRoute")
 
 
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
 
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
 
 /* ***********************
 "View Engine and Templates"
@@ -28,17 +50,14 @@ app.set("layout", "./layouts/layout") // not at views root- es decir que las pla
 /* ***********************
  * Routes
  *************************/
-app.use(static)
-
+app.use(require("./routes/static"))
 //Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))// esta es la version actualizada
-/*
-app.get("/", function(req, res){ // esta es la version antes de la alteracion en la tarea de w3 "MVC Getting started"
-  res.render("index", {title: "Home"})
-})*/
+// Inventory route
+app.use("/inv", require("./routes/inventoryRoute"))
+//account route
+app.use("/account", require("./routes/accountRoute"))
 
-// Inventory routes
-app.use("/inv", inventoryRoute)
 
 // File Not Found Route
 // Manejador de errores 500
