@@ -340,7 +340,7 @@ footer {
 .login-form button[type="button"] {
   margin-top: 1rem;
   padding: 0.5rem;
-  background-color: #90Dc3f;
+  background-color: var(--naranja);
   border: none;
   border-radius: 6px;
   cursor: pointer;

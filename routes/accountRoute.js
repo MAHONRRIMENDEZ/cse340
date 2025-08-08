@@ -10,5 +10,9 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin))
 //Unit 4, deliver registration view activity
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
+//Process Registration 
+router.post('/register', utilities.handleErrors(accountController.registerAccount))
+//deberia ser el mismo que: action="/account/register"
+
 
 module.exports = router;
