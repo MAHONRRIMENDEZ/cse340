@@ -1,7 +1,23 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
 
+
 const invCont = {}
+
+/* ***************************
+ * Build the inventory management view
+ * ************************** */
+invCont.buildManagement = async function (req, res, next) {
+    try {
+        let nav = await utilities.getNav()
+        res.render("./inventory/management", {
+            title: "Inventory Management",
+            nav
+        })
+    } catch (error) {
+        next(error)
+    }
+}
 
 /* ***************************
  *  Build inventory by classification view
@@ -35,8 +51,66 @@ res.render("./inventory/detail", {
 }
 
 
+
 invCont.triggerError = function (req, res, next) {
     next(new Error("Error del servidor simulado (500 desde controlador)"))
+}
+
+const { validationResult } = require("express-validator")
+
+// Mostrar el formulario para agregar clasificación
+invCont.buildAddClassification = async function (req, res, next) {
+    try {
+        let nav = await utilities.getNav()
+        res.render("inventory/add-classification", {
+            title: "Add New Classification",
+            nav,
+            classification_name: ""
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+// Procesar inserción de nueva clasificación
+invCont.addClassification = async function (req, res, next) {
+    const { classification_name } = req.body
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        return res.status(400).render("inventory/add-classification", {
+        title: "Add New Classification",
+        nav,
+        errors: errors.array(),
+        classification_name
+        })
+    }
+
+    try {
+    const result = await invModel.addClassification(classification_name)
+
+    if (result) {
+      let nav = await utilities.getNav() // incluye la nueva clasificación
+        req.flash("success_msg", `Classification "${classification_name}" added successfully!`)
+        return res.status(201).render("inventory/management", {
+            title: "Inventory Management",
+            nav,
+            success_msg: req.flash("success_msg")
+        })
+        } else {
+            throw new Error("Failed to add classification")
+        }
+        } catch (error) {
+        let nav = await utilities.getNav()
+        req.flash("error_msg", "Sorry, the classification could not be added.")
+        return res.status(500).render("inventory/add-classification", {
+            title: "Add New Classification",
+            nav,
+            error_msg: req.flash("error_msg"),
+            classification_name
+        })
+    }
 }
 
 

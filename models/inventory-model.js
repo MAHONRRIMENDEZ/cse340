@@ -43,12 +43,24 @@ async function getInventoryById(inv_id) {
   }
 }
 
+// Insertar nueva clasificación en la base de datos
+async function addClassification(classification_name) {
+  try {
+    const sql = "INSERT INTO classification (classification_name) VALUES ($1)"
+    const result = await pool.query(sql, [classification_name])
+    return result.rowCount  // 1 si se insertó correctamente
+  } catch (error) {
+    throw error
+  }
+}
 
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
-  getInventoryById
+  getInventoryById,
+  addClassification // <--- añadir aquí
 }
+
 // module.exports = {getClassifications} 
 
 /*para ver como modificar esta funcion revisa la w02 lesson "understand data"*/ 

@@ -1,0 +1,27 @@
+<main class="container">
+    <h1><%= title %></h1>
+
+    <!-- Mensajes flash -->
+    <% if (typeof message !== 'undefined') { %>
+        <div class="flash flash-info"><%= message %></div>
+    <% } %>
+    <% if (typeof success_msg !== 'undefined') { %>
+        <div class="flash flash-success"><%= success_msg %></div>
+    <% } %>
+    <% if (typeof error_msg !== 'undefined') { %>
+        <div class="flash flash-error"><%= error_msg %></div>
+    <% } %>
+    <% if (typeof errors !== 'undefined' && errors.length) { %>
+        <ul class="flash flash-errors">
+        <% errors.forEach(function(err){ %>
+            <li><%= err.msg || err %></li>
+        <% }) %>
+        </ul>
+    <% } %>
+
+<!-- Contenedor de enlaces -->
+    <section class="management-links">
+        <a class="mgmt-link" href="/inv/add-classification">➕ Add New Classification</a>
+        <a class="mgmt-link" href="/inv/add-inventory">🚗 Add New Inventory Item</a>
+    </section>
+</main>
