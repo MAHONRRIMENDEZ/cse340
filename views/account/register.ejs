@@ -1,23 +1,40 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else { res.redirect('/') } %>
+
+<%-messages() %>
+
+<% if (errors) { %>
+        <ul class="notice">
+                <% errors.array().forEach(error => { %>
+                <li><%= error.msg %></li>
+                <%  }) %>
+        </ul>
+<% } %>
+
 <div class="login-form">
-        <h1><%= title %></h1>
-        <form action="/account/register" method="post">
+        <h2><%= title %></h2>
+        <label for="subtitle"> All fields are required</label>
+        <form id="registerForm" action="/account/register" method="post">
+
         <label for="firstname">First Name</label>
         <input type="text" id="account_firstname" name="account_firstname" required
-                value="<%= typeof firstname !== 'undefined' ? firstname : '' %>" />
+                value="<%= locals.account_firstname %>" />
 
         <label for="lastname">Last Name</label>
         <input type="text" id="account_lastname" name="account_lastname" required
-                value="<%= typeof lastname !== 'undefined' ? lastname : '' %>" />
+                value="<%= locals.account_lastname %>" />
 
         <label for="email">Email Address</label>
-        <input type="email" id="account_email" name="account_email" required
-                value="<%= typeof email !== 'undefined' ? email : '' %>" />
+        <input type="email" id="account_email" name="account_email" required placeholder="name@mail.com" 
+                value="<%= locals.account_email %>" />
 
         <label for="account_password">Password</label>
+        
         <input type="password" id="account_password" name="account_password" required
                 pattern="(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}"
                 title="Password must be at least 12 characters long, contain 1 uppercase letter, 1 number, and 1 special character" />
-
+        <label for="subtitle">Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</label> 
         <button type="button" onclick="togglePassword()">Show/Hide Password</button>
 
         <button type="submit">Register</button>
