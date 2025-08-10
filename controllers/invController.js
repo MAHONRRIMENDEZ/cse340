@@ -1,5 +1,6 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
+const { body, validationResult } = require("express-validator");
 
 
 const invCont = {}
@@ -56,8 +57,6 @@ invCont.triggerError = function (req, res, next) {
     next(new Error("Error del servidor simulado (500 desde controlador)"))
 }
 
-const { validationResult } = require("express-validator")
-
 // Mostrar el formulario para agregar clasificación
 invCont.buildAddClassification = async function (req, res, next) {
     try {
@@ -112,6 +111,111 @@ invCont.addClassification = async function (req, res, next) {
         })
     }
 }
+
+
+
+/* ***************************
+ * Mostrar formulario para añadir vehículo
+ * ************************** */
+invCont.buildAddInventory = async function (req, res, next) {
+try {
+    const classificationList = await utilities.buildClassificationList();
+    let nav = await utilities.getNav();
+    res.render("./inventory/add-inventory", {
+        title: "Add New Vehicle",
+        nav,
+        classificationList,
+        });
+    } catch (error) {
+        next(error);
+    }
+}; 
+
+/* ***************************
+ * Insertar nuevo vehículo en BD
+ * ************************** */
+// Procesar inserción de nuevo vehículo
+invCont.addInventory = async function (req, res, next) {
+    const {
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id } = req.body
+
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    return res.status(400).render("inventory/add-inventory", {
+        title: "Add New Vehicle",
+        nav,
+        errors: errors.array(),
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id
+    })
+}
+
+try {
+    const newVehicleId = await invModel.addInventoryItem({
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id
+    })
+
+    if (newVehicleId) {
+        let nav = await utilities.getNav()
+        req.flash("success_msg", `Vehicle "${inv_make} ${inv_model}" added successfully!`)
+        return res.status(201).render("inventory/management", {
+        title: "Inventory Management",
+        nav,
+        success_msg: req.flash("success_msg")
+    })
+    } else {
+        throw new Error("Failed to add inventory item")
+    }
+    } catch (error) {
+        console.error("Error adding vehicle:", error)
+        let nav = await utilities.getNav()
+        req.flash("error_msg", "Sorry, the vehicle could not be added.")
+        return res.status(500).render("inventory/add-inventory", {
+            title: "Add New Vehicle",
+            nav,
+            error_msg: req.flash("error_msg"),
+            inv_make,
+            inv_model,
+            inv_year,
+            inv_description,
+            inv_image,
+            inv_thumbnail,
+            inv_price,
+            inv_miles,
+            inv_color,
+            classification_id
+        })
+    }
+}
+
 
 
 module.exports = invCont
