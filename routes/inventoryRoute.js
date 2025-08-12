@@ -34,15 +34,14 @@ router.post(
     utilities.handleErrors(invController.addClassification)
 )
 
-const validate = require("../utilities/inv-validation") // luego crearemos este archivo con las validaciones
-
 // Mostrar formulario para añadir nuevo vehículo (GET)
 router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
 
 // Procesar formulario para añadir nuevo vehículo (POST)
 router.post(
     "/add-inventory",
-    utilities.handleErrors(invController.checkInventoryData), // validación servidor (middleware)
+    invValidation.addInventoryRules(),
+    utilities.handleErrors(invValidation.checkInventoryData), // validación servidor (middleware)
     utilities.handleErrors(invController.addInventory)       // función para insertar y responder
 );
 

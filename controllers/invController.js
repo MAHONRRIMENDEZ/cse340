@@ -121,7 +121,7 @@ invCont.buildAddInventory = async function (req, res, next) {
 try {
     const classificationList = await utilities.buildClassificationList();
     let nav = await utilities.getNav();
-    res.render("./inventory/add-inventory", {
+    res.render("inventory/add-inventory", {
         title: "Add New Vehicle",
         nav,
         classificationList,
@@ -215,7 +215,5 @@ try {
         })
     }
 }
-
-
 
 module.exports = invCont

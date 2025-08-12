@@ -388,6 +388,7 @@ footer {
 .flash-error { background-color: #f2dede; color: #a94442; }
 .flash-errors { background-color: #f2dede; color: #a94442; padding: 10px; border-radius: 4px; }
 
+/**/
 
 /* Responsive */
 @media (max-width: 768px) {

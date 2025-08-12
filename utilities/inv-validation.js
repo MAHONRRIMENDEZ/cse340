@@ -98,7 +98,7 @@ validate.addInventoryRules = () => {
     ]
 }
 
-validate.checkAddInventoryData = async (req, res, next) => {
+validate.checkInventoryData = async (req, res, next) => {
     const {
         classification_id,
         inv_make,
