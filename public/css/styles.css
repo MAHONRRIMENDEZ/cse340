@@ -388,6 +388,84 @@ footer {
 .flash-error { background-color: #f2dede; color: #a94442; }
 .flash-errors { background-color: #f2dede; color: #a94442; padding: 10px; border-radius: 4px; }
 
+/*añadir un tipo de carro*/
+.inventory-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 2px solid var(--morado);
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 0 0 15px rgba(88, 24, 69, 0.2);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.inventory-form h1 {
+  text-align: center;
+  color: var(--morado);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.inventory-form label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  font-weight: bold;
+  color: var(--morado);
+}
+
+.inventory-form input,
+.inventory-form select,
+.inventory-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  resize: vertical;
+}
+
+.inventory-form input:focus,
+.inventory-form select:focus,
+.inventory-form textarea:focus {
+  outline: none;
+  border-color: var(--verde);
+  box-shadow: 0 0 6px var(--verde);
+}
+
+.inventory-form textarea {
+  min-height: 80px;
+}
+
+.inventory-form button {
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--morado);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.inventory-form button:hover {
+  background-color: var(--rojo);
+  transform: scale(1.03);
+}
+
+/* Mensajes flash dentro del formulario para que queden integrados */
+.inventory-form .flash {
+  margin-bottom: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
 /*añadir un carro*/
 
 .inventory-form {
