@@ -544,8 +544,145 @@ footer {
   border-radius: 8px;
   font-weight: 600;
 }
+/*inventory MNGNT VIEW*/ 
+.inventory-selector {
+  background-color: var(--beige);
+  padding: 1.5rem;
+  border: 2px solid var(--morado);
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.inventory-selector p {
+  margin-bottom: 1rem;
+  color: var(--morado);
+  font-weight: bold;
+}
+
+/* Select (classificationList) */
+.inventory-selector select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 2px solid var(--morado);
+  border-radius: 6px;
+  color: var(--morado);
+  background-color: white;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.inventory-selector select:hover {
+  border-color: var(--verde);
+}
+
+/* Tabla */
+#inventoryDisplay {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+#inventoryDisplay th {
+  background-color: var(--morado);
+  color: var(--beige);
+  padding: 0.75rem;
+}
+
+#inventoryDisplay td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+#inventoryDisplay tr:hover td {
+  background-color: var(--verde);
+  color: white;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Mensaje sin JS */
+.inventory-selector noscript {
+  display: block;
+  background-color: var(--rojo);
+  color: white;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  text-align: center;
+}
 
 
+/*account MNGNT VIEW */
+.account-management {
+  background-color: var(--beige);
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  font-family: Arial, sans-serif;
+}
+
+/* Encabezados */
+.account-management h2 {
+  color: var(--morado);
+  margin-bottom: 0.5rem;
+}
+
+.account-management p {
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* Secciones */
+.account-management section {
+  margin-bottom: 2rem;
+}
+
+.account-management h3 {
+  background-color: var(--morado);
+  color: var(--beige);
+  padding: 0.5rem 1rem;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 0;
+}
+
+.account-management ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--morado);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.account-management li {
+  border-bottom: 1px solid #ddd;
+}
+
+.account-management li:last-child {
+  border-bottom: none;
+}
+
+.account-management a {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--morado);
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.account-management a:hover {
+  background-color: var(--verde);
+  color: white;
+}
+
+/* Mensajes */
+.notice {
+  background-color: var(--amarillo);
+  color: #000;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+}
 /* Responsive */
 @media (max-width: 768px) {
   body {

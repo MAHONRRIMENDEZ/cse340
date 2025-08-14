@@ -24,6 +24,8 @@ async function checkExistingEmail(account_email){
 }
 
 // Get account by email
+//esta era la getAccountByEmail function antes de la Learning activity W05
+/*
 async function getAccountByEmail(account_email) {
     try {
         const sql = "SELECT * FROM account WHERE account_email = $1"
@@ -32,7 +34,20 @@ async function getAccountByEmail(account_email) {
     } catch (error) {
         console.error("getAccountByEmail error: " + error)
     }
-}
+} */
 
+/* *****************************
+* Return account data using email address
+* ***************************** */
+async function getAccountByEmail (account_email) {
+    try {
+        const result = await pool.query(
+            'SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1',
+            [account_email])
+        return result.rows[0]
+    } catch (error) {
+        return new Error("No matching email found")
+    }
+}
 
 module.exports = { registerAccount, checkExistingEmail, getAccountByEmail}

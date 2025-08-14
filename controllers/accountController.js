@@ -1,8 +1,8 @@
 const utilities = require("../utilities")
 const accountModel = require("../models/account-model") //bringing the account model into scope
 const bcrypt = require("bcryptjs") //21.6k (gzipped: 9.8k)
-
-
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 /* ****************************************
 *  Deliver login view
@@ -80,41 +80,72 @@ async function registerAccount(req, res) {
     }
 }
 
+
 /* ****************************************
-*  Process Login
-* *************************************** */
-async function loginAccount(req, res) {
+ *  Process login request
+ * ************************************ */
+async function accountLogin(req, res) {
     let nav = await utilities.getNav()
     const { account_email, account_password } = req.body
-
     const accountData = await accountModel.getAccountByEmail(account_email)
     if (!accountData) {
-        req.flash("notice", "Invalid email or password.")
-        return res.status(400).render("account/login", {
+        req.flash("notice", "Please check your credentials and try again.")
+        res.status(400).render("account/login", {
             title: "Login",
             nav,
             errors: null,
-            account_email
+            account_email,
         })
+        return
     }
-
-    // Compare entered password with stored hash
-    const passwordMatch = await bcrypt.compare(account_password, accountData.account_password)
-    if (!passwordMatch) {
-        req.flash("notice", "Invalid email or password.")
-        return res.status(400).render("account/login", {
+    try {
+        if (await bcrypt.compare(account_password, accountData.account_password)) 
+            {
+            delete accountData.account_password
+            const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+            if(process.env.NODE_ENV === 'development') {
+                res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+                } else {
+                    res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+                }
+                return res.redirect("/account/")
+    }
+    else {
+        req.flash("message notice", "Please check your credentials and try again.")
+        res.status(400).render("account/login", {
             title: "Login",
-            nav,
-            errors: null,
-            account_email
-        })
+                nav,
+                errors: null,
+                account_email,
+            })
+        }
+    } catch (error) {
+        throw new Error('Access Forbidden')
     }
-
-    // Successful login
-    req.flash("notice", `Welcome back, ${accountData.account_firstname}!`)
-    res.redirect("/")
 }
 
+/* ****************************************
+*  Muestra la vista de administración de cuenta
+* *************************************** */
+/* ****************************************
+*  Deliver Account Management view
+* *************************************** */
+async function buildAccountManagement(req, res, next) {
+    let nav = await utilities.getNav()
+    // Recuperamos los datos del usuario desde req.accountData (que deberías obtener del middleware JWT)
+    const accountData = res.locals.accountData // Esto se llenará con la info del usuario autenticado
+    res.render("account/management", {
+        title: "Account Management",
+        nav,
+        errors: null,
+        account_firstname: accountData?.account_firstname,
+        account_lastname: accountData?.account_lastname,
+        account_email: accountData?.account_email
+    })
+}
 
-
-module.exports = { buildLogin, buildRegister, registerAccount, loginAccount }
+module.exports = { buildLogin, 
+                    buildRegister, 
+                    registerAccount, 
+                    accountLogin, //  loginAccount o accountLogin
+                    buildAccountManagement } 

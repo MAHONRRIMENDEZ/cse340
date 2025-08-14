@@ -12,19 +12,18 @@ const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute") /////// OJO CUIDADO CON ESTE QUE LO HICISTE TU SOLO
-const utilities = require("./utilities"); 
+const utilities = require("./utilities/"); 
 const session = require("express-session")
 const pool = require('./database/')
 const accountRoute = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
-
-//const cookieParser = require("cookie-parser")
-
+const cookieParser = require("cookie-parser")
 
 
 /* ***********************
  * Middleware
  * ************************/
+//que es esto?
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
@@ -46,14 +45,16 @@ app.use(function(req, res, next){
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-
 /* ***********************
 "View Engine and Templates"
  *************************/
-
 app.set("view engine", "ejs") //la view engine es "ejs" 
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root- es decir que las plantillas estaran en una carpeta "layouts"
+//Unit 5, Login activity
+app.use(cookieParser())
+//Unit 5 Login Process activity    
+app.use(utilities.checkJWTToken)
 
 /* ***********************
  * Routes
@@ -65,6 +66,7 @@ app.get("/", utilities.handleErrors(baseController.buildHome))// esta es la vers
 app.use("/inv", require("./routes/inventoryRoute"))
 //account route
 app.use("/account", require("./routes/accountRoute"))
+
 
 
 // File Not Found Route

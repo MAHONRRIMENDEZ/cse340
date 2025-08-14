@@ -45,4 +45,8 @@ router.post(
     utilities.handleErrors(invController.addInventory)       // función para insertar y responder
 );
 
+// Add a new route, that works with the URL in the JavaScript file that you just built:
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
+
 module.exports = router;
