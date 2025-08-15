@@ -147,8 +147,60 @@ if (!errors.isEmpty()) {
 }
 next()
 }
+/*********************
+ * Change the comment to reflect that errors will be directed back to the edit view.
+ */
+validate.checkUpdateData = async (req, res, next) => {
+    const {
+        classification_id,
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        inv_id,
+} = req.body
 
+const errors = validationResult(req)
+if (!errors.isEmpty()) {
+    let nav = await require(".").getNav() // usa tu utilities/index.js getNav
+    // Obtener clasificaciones para volver a crear el select con sticky selected
+    const invModel = require("../models/inventory-model")
+    const classificationsData = await invModel.getClassifications()
+    let classificationList = '<select name="classification_id" id="classificationList" required>'
+    classificationList += '<option value="">Choose a Classification</option>'
+    classificationsData.rows.forEach((row) => {
+        classificationList += `<option value="${row.classification_id}"${
+            row.classification_id == classification_id ? " selected" : ""
+        }>${row.classification_name}</option>`
+    })
+    classificationList += "</select>"
 
+    res.render("./inventory/edit-inventory", {
+        title: "Edit " + itemName,
+        nav,
+        classificationList,
+        errors: errors.array(),
+        classification_id,
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        inv_id
+    })
+    return
+}
+next()
+}
 
 
 module.exports = validate

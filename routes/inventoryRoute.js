@@ -48,5 +48,13 @@ router.post(
 // Add a new route, that works with the URL in the JavaScript file that you just built:
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
+//Add a new route that matches the path shown above, and add a parameter to the end of the route to represent the inventory_id value that will be passed in through the URL.
+//router.get("/edit/inv_id", utilities.handleErrors(invController.buildEditInventory))
+router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView));
+router.post("/update/", 
+    invValidation.addInventoryRules(),
+    utilities.handleErrors(invValidation.checkUpdateData), 
+    utilities.handleErrors(invController.updateInventory))
+
 
 module.exports = router;
